@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace backendProjeto
 {
     public class PessoaJuridica : Pessoa
@@ -5,6 +10,30 @@ namespace backendProjeto
         public string? cnpj { get; set; }
 
         public string? razaoSocial { get; set; }
+
+        public PessoaJuridica Ler(string nameArquivo)
+        {
+            PessoaJuridica pj = new PessoaJuridica();
+
+            using (StreamReader sr = new StreamReader($"{nameArquivo}.txt"))
+            {
+                string[] atributos = sr.ReadLine()!.Split(",");
+
+                pj.nome = atributos[0];
+                pj.cnpj = atributos[1];
+                pj.razaoSocial = atributos[2];
+
+
+            }
+            return pj;
+        }
+        public void Inserir(PessoaJuridica pj)
+        {
+            using (StreamWriter sw = new StreamWriter($"{pj.nome}.txt"))
+            {
+                sw.WriteLine($"{pj.nome},{pj.rendimento},{pj.cnpj}");
+            }
+        }
         public override double PagarImposto(float rendimento)
         {
 

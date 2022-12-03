@@ -12,5 +12,6 @@ namespace backendProjeto
 
         public bool enderecoComercial { get; set; }
 
+
     }
 }
