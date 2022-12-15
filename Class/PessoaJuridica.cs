@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace backendProjeto
+namespace backendProjeto.Class
 {
     public class PessoaJuridica : Pessoa
     {
@@ -13,27 +13,30 @@ namespace backendProjeto
 
         public PessoaJuridica Ler(string nameArquivo)
         {
-            PessoaJuridica pj = new PessoaJuridica();
+            PessoaJuridica PJ = new PessoaJuridica();
 
             using (StreamReader sr = new StreamReader($"{nameArquivo}.txt"))
             {
                 string[] atributos = sr.ReadLine()!.Split(",");
 
-                pj.nome = atributos[0];
-                pj.cnpj = atributos[1];
-                pj.razaoSocial = atributos[2];
+                PJ.nome = atributos[0];
+                PJ.cnpj = atributos[1];
+                PJ.razaoSocial = atributos[2];
+                PJ.endereco.logradouro = atributos[3];
+                PJ.endereco.numero = atributos[4];
 
 
             }
-            return pj;
+            return PJ;
         }
-        public void Inserir(PessoaJuridica pj)
+        public void Inserir(PessoaJuridica PJ)
         {
-            using (StreamWriter sw = new StreamWriter($"{pj.nome}.txt"))
+            using (StreamWriter sw = new StreamWriter($"{PJ.nome}.txt"))
             {
-                sw.WriteLine($"{pj.nome},{pj.rendimento},{pj.cnpj}");
+                sw.WriteLine($"{PJ.nome},{PJ.rendimento},{PJ.cnpj},{PJ.endereco.logradouro},{PJ.endereco.numero}");
             }
         }
+
         public override double PagarImposto(float rendimento)
         {
 

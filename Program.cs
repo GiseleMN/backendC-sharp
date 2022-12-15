@@ -4,8 +4,11 @@
 using System;
 using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace backendProjeto
+
+namespace backendProjeto.Class
 {
 
     class Program
@@ -18,7 +21,7 @@ namespace backendProjeto
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.BackgroundColor = ConsoleColor.Cyan;
 
             Console.WriteLine(@$"
             =============================================
@@ -90,20 +93,21 @@ namespace backendProjeto
                             end.enderecoComercial = false;
                         }
 
-                        PessoaFisica novaPf = new PessoaFisica();
+                        PessoaFisica PF = new PessoaFisica();
 
-                        novaPf.endereco = end;
+                        PF.endereco = end;
 
                         Console.WriteLine($"Digite o seu nome");
-                        novaPf.nome = Console.ReadLine();
+                        PF.nome = Console.ReadLine();
 
                         Console.WriteLine($"digite o seu CPF");
-                        novaPf.cpf = Console.ReadLine();
+                        PF.cpf = Console.ReadLine();
+
 
                         Console.WriteLine($"Escreva sua Data de Nascimento");
-                        novaPf.dataNascimento = DateTime.Parse(Console.ReadLine()!);
+                        PF.dataNascimento = DateTime.Parse(Console.ReadLine()!);
 
-                        bool idadeValida = novaPf.ValidarDataNascimento(novaPf.dataNascimento);
+                        bool idadeValida = PF.ValidarDataNascimento(PF.dataNascimento);
 
                         if (idadeValida == true)
                         {
@@ -115,10 +119,10 @@ namespace backendProjeto
                         }
 
                         Console.WriteLine($"Digite o valor de seu rendimento mensal");
-                        novaPf.rendimento = float.Parse(Console.ReadLine()!);
+                        PF.rendimento = float.Parse(Console.ReadLine()!);
 
 
-                        listPf.Add(novaPf);
+                        listPf.Add(PF);
 
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
                         Console.WriteLine($"Cadastro realizado com sucesso");
@@ -158,7 +162,7 @@ namespace backendProjeto
 
                         foreach (var cadaPessoa in listPf)
                         {
-                            Console.WriteLine($"{cadaPessoa.nome},{cadaPessoa.cpf},{cadaPessoa.dataNascimento}{cadaPessoa.endereco.logradouro}");
+                            Console.WriteLine($"{cadaPessoa.nome},{cadaPessoa.cpf},{cadaPessoa.dataNascimento}{cadaPessoa.logradouro}");
 
                             Console.WriteLine($"Aperte ENTER para continuar");
                             Console.ReadLine();
@@ -187,6 +191,7 @@ namespace backendProjeto
 
                         Endereco endpj = new Endereco();
 
+
                         Console.WriteLine($"Digite o seu logradouro");
                         endpj.logradouro = Console.ReadLine();
 
@@ -208,48 +213,72 @@ namespace backendProjeto
                             endpj.enderecoComercial = false;
                         }
 
-                        PessoaJuridica novaPj = new PessoaJuridica();
+                        PessoaJuridica PJ = new PessoaJuridica();
 
-                        novaPj.endereco = endpj;
+                        PJ.endereco = endpj;
 
                         Console.WriteLine($"Digite o CNPJ da sua empresa");
-                        novaPj.cnpj = Console.ReadLine();
+                        PJ.cnpj = Console.ReadLine();
 
                         Console.WriteLine($"Digite o nome da sua empresa");
-                        novaPj.nome = Console.ReadLine();
+                        PJ.nome = Console.ReadLine();
 
                         Console.WriteLine($"Digite sua Razão Social");
-                        novaPj.razaoSocial = Console.ReadLine();
+                        PJ.razaoSocial = Console.ReadLine();
 
-                        novaPj.ValidarCNPJ(novaPj.cnpj);
+                        PJ.ValidarCNPJ(PJ.cnpj);
 
-                        if (novaPj.ValidarCNPJ(novaPj.cnpj))
+                        if (PJ.ValidarCNPJ(PJ.cnpj))
                         {
-                            Console.WriteLine($"CNPJ {novaPj.cnpj} é válido");
+                            Console.WriteLine($"CNPJ {PJ.cnpj} é inválido");
                         }
                         else
                         {
-                            Console.WriteLine("O CPNJ" + novaPj.cnpj + "está inválido");
+                            Console.WriteLine("O CPNJ" + PJ.cnpj + "está válido");
                         }
 
-                        listPj.Add(novaPj);
+                        Console.WriteLine($"Digite o valor de seu rendimento mensal");
+                        PJ.rendimento = float.Parse(Console.ReadLine()!);
+
+                        listPj.Add(PJ);
 
                         break;
 
                     case "5":
 
                         Console.Clear();
+
                         if (listPj.Count > 0)
                         {
-                            foreach (PessoaJuridica cadaItem in listPj)
+
+                            foreach (PessoaJuridica cadaPessoa in listPj)
                             {
                                 Console.Clear();
-                                Console.WriteLine(@$"{cadaItem.nome},{cadaItem.cnpj},{cadaItem.razaoSocial}");
-
+                                Console.WriteLine(@$"
+                                Nome: {cadaPessoa.nome}
+                                Endereço: {cadaPessoa.endereco.logradouro}, {cadaPessoa.endereco.numero}
+                                Razão Social: {cadaPessoa.razaoSocial}
+                                Taxa de imposto a ser paga é: {cadaPessoa.PagarImposto(cadaPessoa.rendimento).ToString("C")}
+                                ");
                                 Console.WriteLine($"Aperte 'Enter' para continuar");
                                 Console.ReadLine();
                             }
 
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Lista vazia!!");
+                            Thread.Sleep(3000);
+                        }
+                        if (listPj.Count > 0)
+                        {
+                            foreach (var cadaPessoa in listPf)
+                            {
+                                Console.WriteLine($"{cadaPessoa.nome},{cadaPessoa.cpf},{cadaPessoa.dataNascimento}{cadaPessoa.logradouro}");
+
+                                Console.WriteLine($"Aperte ENTER para continuar");
+                                Console.ReadLine();
+                            }
                         }
 
 
@@ -260,11 +289,11 @@ namespace backendProjeto
                         Console.WriteLine($"Digite o CNPJ da empresa que deseja remover cadastro");
                         string? cnpjProcurado = Console.ReadLine();
 
-                        PessoaJuridica? pessoaJuridicaEncontrada = listPj.Find(cadaItem => cadaItem.cnpj == cnpjProcurado);
+                        PessoaJuridica? pjEncontrada = listPj.Find(cadaItem => cadaItem.cnpj == cnpjProcurado);
 
                         if (cnpjProcurado != null)
                         {
-                            listPj.Remove(pessoaJuridicaEncontrada);
+                            listPj.Remove(pjEncontrada);
                             Console.WriteLine($"CNPJ removido com sucesso");
                         }
                         else
@@ -288,7 +317,7 @@ namespace backendProjeto
             {
                 Console.ResetColor();
 
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine(textoCarregamento);
                 Thread.Sleep(500);
 

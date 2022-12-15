@@ -2,20 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
-namespace backendProjeto
+namespace backendProjeto.Class
 {
+
     public class PessoaFisica : Pessoa
     {
         public string? cpf { get; set; }
 
         public DateTime dataNascimento { get; set; }
 
+
+
         public void Inserir(PessoaFisica Pf)
         {
             using (StreamWriter sw = new StreamWriter($"{Pf.nome}.txt"))
             {
-                sw.WriteLine($"{Pf.nome},{Pf.rendimento},{Pf.cpf},{Pf.dataNascimento},{Pf.endereco}");
+                sw.WriteLine($"{Pf.nome},{Pf.rendimento},{Pf.cpf},{Pf.dataNascimento},{Pf.endereco.logradouro},{Pf.endereco.numero}");
             }
         }
 
@@ -71,5 +75,6 @@ namespace backendProjeto
                 return false;
             }
         }
+
     }
 }

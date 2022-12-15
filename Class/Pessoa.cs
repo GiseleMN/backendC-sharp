@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace backendProjeto
+namespace backendProjeto.Class
 {
-    public abstract class Pessoa
+    public abstract class Pessoa : Endereco
     {
         public string? nome { get; set; }
 

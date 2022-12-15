@@ -1,6 +1,11 @@
-using System;
 
-namespace backendProjeto
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+
+namespace backendProjeto.Class
 {
     public class Endereco
     {
